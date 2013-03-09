@@ -62,7 +62,7 @@ public class Game extends JPanel {
 		
 			repaint();
 			try {
-				Thread.sleep(20);
+				Thread.sleep(40);
 			} catch (Exception e) { e.printStackTrace(); }
 	
 		}
@@ -85,6 +85,7 @@ public class Game extends JPanel {
 		if (inGame) {
 			showScore(g2d);
         	user.paint(g2d);
+         AI.paint(g2d);
       }
       else
       	showIntro(g2d);
