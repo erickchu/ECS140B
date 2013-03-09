@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 public class User extends GamePiece {
 	
    private op void move(int);
+   public int score;
 
 	public User(int x, int y, Color color, Map m) {
 		posX = spawnX = x;
@@ -14,6 +15,7 @@ public class User extends GamePiece {
       direction = LEFT;
       speed = map.blocksize/4;
 		this.color = color;
+      score = 0;
 	}
 	
    public cap void (int) getMoveOp() {
@@ -80,8 +82,9 @@ public class User extends GamePiece {
 
       if (changedTile) {
          Item item = map.getItem(posX,posY);
-         if (item != null)
-            item.use();
+         if (item != null) {
+            score += item.use();
+         }
       } 
    } 
 	

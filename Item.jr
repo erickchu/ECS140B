@@ -19,6 +19,7 @@ public class Item extends MapObject {
 		posX = x;
 		posY = y;
 		map = m;
+		this.pointValue = pointValue;
 		this.type = type;
 		this.color = color;
 	}

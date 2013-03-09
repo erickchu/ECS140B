@@ -83,6 +83,7 @@ public class Game extends JPanel {
 		}
 
 		if (inGame) {
+			showScore(g2d);
         	user.paint(g2d);
       }
       else
@@ -128,6 +129,17 @@ public class Game extends JPanel {
 		s = "Press ESC to exit.";
 		g2d.setFont(small);
 		g2d.drawString(s, (resX - smetr.stringWidth(s)) / 2, (resY*3/4)+60);
+	}
+
+	public void showScore(Graphics2D g2d) {
+		Font small = new Font("Monospaced", Font.BOLD, 14);
+		FontMetrics smetr = g2d.getFontMetrics(small);
+		String s;
+
+		g2d.setFont(small);
+		g2d.setColor(Color.white);
+		s = "SCORE: " + user.score;
+		g2d.drawString(s, (resX - smetr.stringWidth(s)) / 2, (resY-50));
 	}
 
    process KeyListener {
