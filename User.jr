@@ -41,6 +41,9 @@ public class User extends GamePiece {
                changedTile = true;
             }
          }
+         else {
+            offsetX = offsetX/map.blocksize * posX + map.blocksize/2;
+         }
       }
 
       else if (direction == RIGHT) {
@@ -54,6 +57,9 @@ public class User extends GamePiece {
                changedTile = true;
             }
          }
+         else {
+            offsetX = offsetX/map.blocksize * posX + map.blocksize/2;
+         }         
       }
 
       else if (direction == UP) {
@@ -66,6 +72,9 @@ public class User extends GamePiece {
                changedTile = true;
             }
          }
+         else {
+            offsetY = offsetY/map.blocksize * posY + map.blocksize/2;
+         }
       }
 
       else { //dir == DOWN
@@ -77,6 +86,9 @@ public class User extends GamePiece {
                offsetY -= map.blocksize;
                changedTile = true;
             }
+         }
+         else {
+            offsetY = offsetY/map.blocksize * posY + map.blocksize/2;
          }
       }
 
