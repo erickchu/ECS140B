@@ -19,52 +19,52 @@ import javax.swing.Timer;
 import javax.swing.JFrame;
 
 public class Game extends JPanel {
-	
-   private cap void (int) keyChar;
+
+	private cap void (int) keyChar;
 	private cap void (int) moveUser;
-   
-   private int resX;
+
+	private int resX;
 	private int resY;
 	private boolean inGame;
 	private boolean paused;
 	private boolean runMainLoop;
-	
+
 	private User user;
 	private Map map;
 	private Ghosts AI;
-	
+
 	public Game(int x, int y, cap void (int) ki) {
 		keyChar = ki;
 		resX = x;
 		resY = y;
 		initGame();
 	}
-	
+
 	public void initGame() {
 		inGame = false;
 		paused = false;
-      runMainLoop = true;
-	   map = new Map(0,0,0);
-      user = map.getUser();
-      moveUser = user.getMoveOp();
-      AI = map.getAI();
-      send mainLoop();
+		runMainLoop = true;
+		map = new Map(0,0,0);
+		user = map.getUser();
+		moveUser = user.getMoveOp();
+		AI = map.getAI();
+		send mainLoop();
 	}
-	
+
 	public op void mainLoop() {
 		while (runMainLoop) {
 
-         if (inGame) {
-            if (!paused) {
-               user.play();
-            }
+			if (inGame) {
+				if (!paused) {
+					user.play();
+				}
 			}
-		
+
 			repaint();
 			try {
 				Thread.sleep(40);
 			} catch (Exception e) { e.printStackTrace(); }
-	
+
 		}
 	}
 
@@ -73,8 +73,8 @@ public class Game extends JPanel {
 		Graphics2D g2d = ((Graphics2D)g);
 		g2d.setColor(Color.black);
 		g2d.fillRect(0, 0, resX, resY);
-		
-         //Render logic here for all objects (walls, items, ghosts, player) 
+
+		//Render logic here for all objects (walls, items, ghosts, player) 
 		for (Item[] oneD : map.getItems()) {
 			for (Item item : oneD) {
 				if (item != null)
@@ -83,15 +83,18 @@ public class Game extends JPanel {
 		}
 
 		if (inGame) {
-			showScore(g2d);
-        	user.paint(g2d);
-         AI.paint(g2d);
-      }
-      else
-      	showIntro(g2d);
+			if(paused) {
+				showBanner(g2d);
+			} else {
+				showScore(g2d);
+				user.paint(g2d);
+				AI.paint(g2d);
+			}
+		}
+		else showIntro(g2d);
 	}
-	
-	
+
+
 	public void showIntro(Graphics2D g2d) {
 		Font large = new Font("SansSerif", Font.BOLD, 28);
 		Font small = new Font("Monospaced", Font.PLAIN, 14);
@@ -142,50 +145,72 @@ public class Game extends JPanel {
 		s = "SCORE: " + user.score;
 		g2d.drawString(s, (resX - smetr.stringWidth(s)) / 2, (resY-50));
 	}
+	
+	public void showBanner(Graphics g2d) {
+		int width = 200, height = 50,
+			lx = (int) (0.5*(this.getWidth() - width)),
+			ly = (int) (0.5*(this.getHeight() - height));
+		Font large = new Font("SansSerif", Font.BOLD, 28);
+		Font small = new Font("Monospaced", Font.PLAIN, 14);
+		String s; 
+		FontMetrics lmetr = g2d.getFontMetrics(large);
+		FontMetrics smetr = g2d.getFontMetrics(small);
 
-   process KeyListener {
+		// Title box
+		g2d.setColor(new Color(0, 32, 48));
+		g2d.fillRect(lx, ly, width, height);
+		g2d.setColor(Color.white);
+		g2d.drawRect(lx, ly, width, height);
 
-      while (true) {
-         inni void keyChar(int key) {
+		s = "Paused"; 
+		g2d.setFont(large);
+		g2d.setColor(Color.white);
+		g2d.drawString(s, (int) ((resX - lmetr.stringWidth(s)) / 2), (int) (ly + 35));
+	}
 
-            if (inGame) {
-               switch (key) {
-                  case KeyEvent.VK_LEFT:
-                     send moveUser(GamePiece.LEFT); 
-                     break;
-                  case KeyEvent.VK_RIGHT:
-                     send moveUser(GamePiece.RIGHT);
-                     break;
-                  case KeyEvent.VK_UP:
-                     send moveUser(GamePiece.UP);
-                     break;
-                  case KeyEvent.VK_DOWN:
-                     send moveUser(GamePiece.DOWN);
-                     break;
-                  case KeyEvent.VK_SPACE:
-                     paused = !paused;
-                     break;
-                  case KeyEvent.VK_ESCAPE:
-                     inGame = false;
-                     break;
-                  default:
-                     break;
-               }
-            }
-      
-            else { 
-               switch (key) {
-                  case KeyEvent.VK_ENTER:
-                     inGame = true;
-                     break;
-                  case KeyEvent.VK_ESCAPE:
-                     runMainLoop = false;
-                     break;
-                  default:
-                     break;
-              } //end switch
-           } //end else
-         } //end inni
-      } //end while
-   } //end process (KeyListener)
+	process KeyListener {
+
+		while (true) {
+			inni void keyChar(int key) {
+
+				if (inGame) {
+					switch (key) {
+						case KeyEvent.VK_LEFT:
+							send moveUser(GamePiece.LEFT); 
+							break;
+						case KeyEvent.VK_RIGHT:
+							send moveUser(GamePiece.RIGHT);
+							break;
+						case KeyEvent.VK_UP:
+							send moveUser(GamePiece.UP);
+							break;
+						case KeyEvent.VK_DOWN:
+							send moveUser(GamePiece.DOWN);
+							break;
+						case KeyEvent.VK_SPACE:
+							paused = !paused;
+							break;
+						case KeyEvent.VK_ESCAPE:
+							inGame = false;
+							break;
+						default:
+							break;
+					}
+				}
+
+				else { 
+					switch (key) {
+						case KeyEvent.VK_ENTER:
+							inGame = true;
+							break;
+						case KeyEvent.VK_ESCAPE:
+							runMainLoop = false;
+							break;
+						default:
+							break;
+					} //end switch
+				} //end else
+			} //end inni
+		} //end while
+	} //end process (KeyListener)
 }
