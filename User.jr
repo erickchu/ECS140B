@@ -2,27 +2,29 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class User extends GamePiece {
-	
+   
    private op void move(int);
    public int score;
+   public int lives;
 
-	public User(int x, int y, Color color, Map m) {
-		posX = spawnX = x;
-		posY = spawnY = y;
+   public User(int x, int y, Color color, Map m) {
+      posX = spawnX = x;
+      posY = spawnY = y;
       map = m;
       offsetX = 0;
       offsetY = map.blocksize/2;
       direction = LEFT;
       speed = map.blocksize/4;
-		this.color = color;
+      this.color = color;
       score = 0;
-	}
-	
+      lives = 3;
+   }
+   
    public cap void (int) getMoveOp() {
       return move;
    }
 
-	public void play() {
+   public void play() {
       boolean changedTile = false;
       
       inni void move(int dir) {
@@ -42,7 +44,9 @@ public class User extends GamePiece {
             }
          }
          else {
-            offsetX = offsetX/map.blocksize * posX + map.blocksize/2;
+            offsetX -= speed;
+            if (offsetX < map.blocksize/2)
+               offsetX = offsetX/map.blocksize * posX + map.blocksize/2;
          }
       }
 
@@ -58,7 +62,9 @@ public class User extends GamePiece {
             }
          }
          else {
-            offsetX = offsetX/map.blocksize * posX + map.blocksize/2;
+            offsetX += speed;
+            if (offsetX > map.blocksize/2)
+               offsetX = offsetX/map.blocksize * posX + map.blocksize/2;
          }         
       }
 
@@ -73,7 +79,9 @@ public class User extends GamePiece {
             }
          }
          else {
-            offsetY = offsetY/map.blocksize * posY + map.blocksize/2;
+            offsetY -= speed;
+            if (offsetY < map.blocksize/2)
+               offsetY = offsetY/map.blocksize * posY + map.blocksize/2;
          }
       }
 
@@ -88,7 +96,9 @@ public class User extends GamePiece {
             }
          }
          else {
-            offsetY = offsetY/map.blocksize * posY + map.blocksize/2;
+            offsetY += speed;
+            if (offsetY > map.blocksize/2)
+               offsetY = offsetY/map.blocksize * posY + map.blocksize/2;
          }
       }
 
@@ -99,9 +109,9 @@ public class User extends GamePiece {
          }
       } 
    } 
-	
-	public void paint(Graphics2D g) {
-		int x = (posX * map.blocksize + offsetX);
+   
+   public void paint(Graphics2D g) {
+      int x = (posX * map.blocksize + offsetX);
       int y = (posY * map.blocksize + offsetY);
       int mouth=305; //open = 305, closed = 360      
       g.setColor(color);

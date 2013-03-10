@@ -94,7 +94,7 @@ public class Game extends JPanel {
 	
 	public void showIntro(Graphics2D g2d) {
 		Font large = new Font("SansSerif", Font.BOLD, 28);
-		Font small = new Font("Monospaced", Font.PLAIN, 14);
+		Font small = new Font("SansSerif", Font.PLAIN, 14);
 		String s; 
 		FontMetrics lmetr = g2d.getFontMetrics(large);
 		FontMetrics smetr = g2d.getFontMetrics(small);
@@ -110,7 +110,7 @@ public class Game extends JPanel {
 		g2d.setColor(Color.white);
 		g2d.drawRect(100, resY*3/4, resX - 200, 80);
 
-		s = "Pac-Man"; 
+		s = "PAC-MAN"; 
 		g2d.setFont(large);
 		g2d.setColor(Color.white);
 		g2d.drawString(s, (resX - lmetr.stringWidth(s)) / 2, 200);
@@ -133,14 +133,16 @@ public class Game extends JPanel {
 	}
 
 	public void showScore(Graphics2D g2d) {
-		Font small = new Font("Monospaced", Font.BOLD, 14);
+		Font small = new Font("SansSerif", Font.BOLD, 12);
 		FontMetrics smetr = g2d.getFontMetrics(small);
 		String s;
 
 		g2d.setFont(small);
 		g2d.setColor(Color.white);
+		s = "LIVES: " + user.lives;
+		g2d.drawString(s, (resX - smetr.stringWidth(s)) / 3, (resY-50));
 		s = "SCORE: " + user.score;
-		g2d.drawString(s, (resX - smetr.stringWidth(s)) / 2, (resY-50));
+		g2d.drawString(s, (resX - smetr.stringWidth(s)) * 2 / 3, (resY-50));
 	}
 
    process KeyListener {
