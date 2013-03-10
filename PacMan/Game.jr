@@ -1,0 +1,153 @@
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.awt.event.KeyEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+import javax.swing.JFrame;
+
+public class Game extends JPanel {
+	
+   private cap void (int) keyChar;
+	private cap void (int) moveUser;
+   
+   private int resX;
+	private int resY;
+	private boolean inGame;
+	private boolean paused;
+	private boolean runMainLoop;
+	
+	private User user;
+	private Map map;
+	private Ghosts AI;
+	
+	public Game(int x, int y, cap void (int) ki) {
+		keyChar = ki;
+		resX = x;
+		resY = y;
+		initGame();
+	}
+	
+	public void initGame() {
+		inGame = false;
+		paused = false;
+      runMainLoop = true;
+	   map = new Map(0,0,0);
+      user = map.getUser();
+      moveUser = user.getMoveOp();
+      AI = map.getAI();
+      send mainLoop();
+	}
+	
+	public op void mainLoop() {
+		while (runMainLoop) {
+			if (inGame) {
+            user.play();
+			}
+		
+			repaint();
+			try {
+				Thread.sleep(5);
+			} catch (Exception e) { e.printStackTrace(); }
+	
+		}
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2d = ((Graphics2D)g);
+		g2d.setColor(Color.black);
+		g2d.fillRect(0, 0, resX, resY);
+		
+		if (inGame) {
+         //Render logic here for all objects (walls, items, ghosts, player) 
+			for (Item[] oneD : map.getItems()) {
+				for (Item item : oneD) {
+					if (item != null)
+						item.paint(g2d);
+				}
+			}
+
+         user.paint(g2d);
+		}
+        
+      else {
+        	showIntro(g2d);
+      }
+	}
+	
+	
+	public void showIntro(Graphics2D g2d) {
+		g2d.setColor(new Color(0, 32, 48));
+	
+		g2d.fillRect(50, resY/2 - 30, resX/2 - 100, 50);
+		g2d.setColor(Color.white);
+		g2d.drawRect(50, resY/2 - 30, resX/2 - 100, 50);
+
+		String s = "Press enter to start.";
+		Font small = new Font("Helvetica", Font.BOLD, 14);
+		FontMetrics metr = this.getFontMetrics(small);
+
+		g2d.setColor(Color.white);
+		g2d.setFont(small);
+		g2d.drawString(s, (resX/2 - metr.stringWidth(s)) / 2, resY / 2);
+	}
+
+   process KeyListener {
+
+      while (true) {
+         inni void keyChar(int key) {
+
+            if (inGame) {
+               switch (key) {
+                  case KeyEvent.VK_LEFT:
+                     send moveUser(GamePiece.LEFT); 
+                     break;
+                  case KeyEvent.VK_RIGHT:
+                     send moveUser(GamePiece.RIGHT);
+                     break;
+                  case KeyEvent.VK_UP:
+                     send moveUser(GamePiece.UP);
+                     break;
+                  case KeyEvent.VK_DOWN:
+                     send moveUser(GamePiece.DOWN);
+                     break;
+                  case KeyEvent.VK_SPACE:
+                     paused = !paused;
+                     break;
+                  case KeyEvent.VK_ESCAPE:
+                     inGame = false;
+                     break;
+                  default:
+                     break;
+               }
+            }
+      
+            else {
+               switch (key) {
+                  case KeyEvent.VK_ENTER:
+                     inGame = true;
+                     break;
+                  case KeyEvent.VK_ESCAPE:
+                     runMainLoop = false;
+                     break;
+                  default:
+                     break;
+              }
+           }
+         }
+      } 
+   }
+}
