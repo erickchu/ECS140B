@@ -28,10 +28,11 @@ public class Item extends MapObject {
       return (type != ITEM_FOOD && type != ITEM_POWERUP);
    }
 
-
-   public int use() {
+   public op int use() {
       map.removeItem(posX, posY);
-      return pointValue;
+      reply pointValue;
+      map.numFood--;
+      //return pointValue;
    }
 
 	public void paint(Graphics2D g) {

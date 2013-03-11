@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 public class User extends GamePiece {
    
    private op void move(int);
-   public int score;
+   public static int score = 0;
    public int lives;
 
    public User(int x, int y, Color color, Map m) {
@@ -16,7 +16,6 @@ public class User extends GamePiece {
       direction = LEFT;
       speed = map.blocksize/4;
       this.color = color;
-      score = 0;
       lives = 3;
    }
    

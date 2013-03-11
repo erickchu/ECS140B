@@ -43,12 +43,28 @@ public class Game extends JPanel {
 	public void initGame() {
 		inGame = false;
 		paused = false;
+		newLevel();
+	}
+
+	public op void newLevel() {
 		runMainLoop = true;
-		map = new Map(0,0,0);
+		map = new Map(0, 0, 0);
 		user = map.getUser();
 		moveUser = user.getMoveOp();
 		AI = map.getAI();
 		send mainLoop();
+	}
+
+	public op void complete() {
+		if (map.numFood <= 0) {
+			user.score += 1000;
+			runMainLoop = false;
+			try {
+				Thread.sleep(2500);
+			} catch (Exception e) { e.printStackTrace(); }
+			newLevel();		
+		}
+
 	}
 
 	public op void mainLoop() {
@@ -57,6 +73,7 @@ public class Game extends JPanel {
 			if (inGame) {
 				if (!paused) {
 					user.play();
+					send complete();
 				}
 			}
 

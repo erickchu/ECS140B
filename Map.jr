@@ -9,6 +9,7 @@ public class Map {
 	private int width=28;
 	private int height=31;
 	public int blocksize=22;
+  public int numFood;
 	
 	private final int mapdata[] =
 	{ 5,4,4,4,4,4,4,4,4,4,4,4,4,7,5,4,4,4,4,4,4,4,4,4,4,4,4,7,
@@ -45,6 +46,7 @@ public class Map {
      };
 	
 	public Map(int w, int h, int bs) {
+    numFood = 244;
 		/*width = w;
 		height = h;
 		blocksize = bs;*/
@@ -87,6 +89,7 @@ public class Map {
 
       return true;
    }
+   
    public User getUser() {
       return user;
    }
